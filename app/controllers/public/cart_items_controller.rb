@@ -1,32 +1,30 @@
 class Public::CartItemsController < ApplicationController
   before_action :authenticate_customer!
 
-  def with_tax_price
-    (price * 1.1).floor
-  end
-
   def index
     @cart_items = current_customer.cart_items
   end
 
-
-
   def create
-    unless params.dig(:cart_item, :amount).present?
-      redirect_back(fallback_location: root_path)
-      return
-    end
-    
-    cart_item = CartItem.new(cart_item_params)
-    if CartItem.find_by(item_id: params.dig(:cart_item, :item_id))
-      count = params.dig(:cart_item, :amount).to_i
-      item = CartItem.find_by(item_id: params.dig(:cart_item, :item_id))
-      item.increment(:amount, count)
-      item.save
+    @cart_item = CartItem.new(cart_item_params)
+    if params[:cart_item][:amount] == ""
+      @genres = Genre.all
+      @item = Item.find(params[:cart_item][:item_id])
+      @customer = current_customer
+      render "public/items/show"
     else
-      cart_item.save
+      if current_customer.cart_items.find_by(item_id: params[:cart_item][:item_id])
+        count = params[:cart_item][:amount].to_i
+        item = CartItem.find_by(item_id: params[:cart_item][:item_id])
+        item.increment(:amount, count)
+        item.save
+        redirect_to cart_items_path
+      else
+         @cart_item.save
+         flash[:notice] = ""
+         redirect_to cart_items_path
+      end
     end
-    redirect_to cart_items_path
   end
 
   def update

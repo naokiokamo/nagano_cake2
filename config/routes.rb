@@ -3,18 +3,13 @@ Rails.application.routes.draw do
   devise_for :admin, controllers: {
    sessions: "admin/sessions"
   }
-  
-  devise_for :customers, controllers: {
-   sessions: "public/sessions",
-   registrations: "public/registrations"
-  }
 
   namespace :admin do
     get '/' => 'homes#top'
     resources :items, except: [:destroy]
     resources :genres, except: [:destroy, :new, :show]
     resources :customers, only: [:index, :show, :edit, :update] 
-    resources :orders, only: [:index]
+   # resources :orders, only: [:index]
     resources :orders, only: [:show, :update]
     resources :order_details, only: [:update]
   end
@@ -34,4 +29,9 @@ Rails.application.routes.draw do
     resources :orders, only: [:new, :create, :index, :show] 
     resources :addresses, only: [:index, :edit, :create, :update, :destroy] 
   end
+  
+   devise_for :customers, controllers: {
+   sessions: "public/sessions",
+   registrations: "public/registrations"
+  }
 end

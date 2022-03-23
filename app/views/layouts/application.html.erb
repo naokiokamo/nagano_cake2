@@ -22,6 +22,7 @@
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
           <ul class="navbar-nav ml-auto">
             <div class="d-grid gap-2 d-md-block">
+              
             <% if customer_signed_in? %>
             <button type="button" class="btn btn-outline-dark btn-sm"><li class="nav-item">
               <%= link_to "マイページ", customers_my_page_path, class: 'nav-link text-dark'  %>
@@ -35,6 +36,7 @@
             <button type="button" class="btn btn-outline-dark btn-sm"><li class="nav-item">
               <%= link_to "ログアウト", destroy_customer_session_path, method: :delete, class: 'nav-link text-dark'  %>
             </li></button>
+            
             <% elsif admin_signed_in? %>
             <button type="button" class="btn btn-outline-dark btn-sm"><li class="nav-item">
               <%= link_to "商品一覧", admin_items_path, class: 'nav-link text-dark'  %>
