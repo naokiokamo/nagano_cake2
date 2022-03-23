@@ -1,0 +1,13 @@
+<table class="table table-borderless">
+  <tr>
+    <th>ジャンル検索</th>
+  </tr>
+
+  <% @genres.each do |genre| %>
+    <tr>
+                           <!--（左：paramsで送るときの名前　右：入れる値）-->
+      <td><%= link_to items_path(genre_id: genre.id) do %><%= genre.name %><% end %></td>
+    </tr>
+  <% end %>
+
+</table>

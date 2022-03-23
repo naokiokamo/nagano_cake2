@@ -1,0 +1,35 @@
+<div class="container">
+  <div class="row">
+    <div class="col-lg-10">
+      <h3>商品一覧</h3>
+      <div class="new-item">
+        <%= link_to new_admin_item_path, class: 'text-dark' do%>
+          <svg xmlns="http://www.w3.org/2000/svg" width="35" height="2¥35" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
+            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+          </svg>
+        <% end %>
+      </div>
+
+      <table class="table table-borderless">
+        <tr>
+          <th>商品ID</th>
+          <th>商品名</th>
+          <th>税抜価格</th>
+          <th>ジャンル</th>
+          <th>ステータス</th>
+        </tr>
+        <% @items.each do |item| %>
+        <tr>
+          <td><%= item.id %></td>
+          <td><%= link_to admin_item_path(item.id) do %><%= item.name %><% end %></td>
+          <td><%= item.price %></td>
+          <td><%= item.genre.name %></td>
+          <td><%= item.is_active_i18n %></td>
+        </tr>
+        <% end %>
+      </table>
+      <%= paginate @items %>
+    </div>
+  </div>
+</div>

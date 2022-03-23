@@ -1,0 +1,26 @@
+<div class="container">
+  <div class="row">
+    <div class="col-lg-3">
+      <%= render partial: "layouts/form", locals: { genres: @genres } %>
+    </div>
+    <div class="col-lg-8">
+      <h3><strong>
+        <% if params[:id] %>
+          <%= @genre.name %>一覧
+        <% else %>
+          商品一覧(全<%= Item.count %>件)
+        <% end %>
+      </strong></h3>
+      <div class="item-box">
+        <% @items.each do |item| %>
+          <div class="itembox-content">
+            <%= attachment_image_tag item, :image, :fill, 100, 100, format: 'jpeg' %></br>
+            <%= link_to item_path(item.id) do %><%= item.name %><% end %></br>
+            ￥<%= item.price %>
+          </div>
+        <% end %>
+      </div>
+    <%= paginate @items %>
+    </div>
+  </div>
+</div>

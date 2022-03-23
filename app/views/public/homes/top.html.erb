@@ -1,0 +1,36 @@
+<div class="container">
+  <div class="row">
+    <div class="col-lg-3">
+      <%= render partial: "layouts/form", locals: { genres: @genres } %>
+    </div>
+    <div class="col-lg-8">
+    <div class="top">
+      <div class="introduction">
+      	<div class="introduction-content">
+      	ようこそ！ながのCAKEへ！</br>
+      	このサイトは、ケーキ販売のECサイトになります。</br>
+				会員でない方も商品の閲覧はできますが、</br>
+				購入には会員登録が必要になります。
+				</div>
+	     </div>
+
+			<div class="items">
+				<h3><strong>新着商品</strong></h3>
+				</br>
+				<div class="item-box">
+          <% @items.first(4).each do |item| %>
+            <div class="itembox-content">
+              <%= attachment_image_tag item, :image, :fill, 100, 100, format: 'jpeg' %></br>
+              ￥<%= item.price %>
+            </div>
+          <% end %>
+      	</div>
+      	<div class="text1">
+      	  <%= link_to "全ての商品を見る>", items_path %>
+      	 </div>
+			</div>
+
+     </div>
+    </div>
+  </div>
+</div>

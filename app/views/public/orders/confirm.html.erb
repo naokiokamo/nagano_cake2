@@ -1,0 +1,61 @@
+<div class="container">
+  <div class="row">
+    <div class="col-lg-10">
+      <h3>注文情報確認</h3>
+
+      <% if @order.errors.any? %>
+        お届け先を選択してください！
+      <% end %>
+      <% @total = 0 %>
+      <div class="order-box">
+        <table border="1" class="table1">
+          <tr>
+            <th>商品名</th>
+            <th>単価(税込)</th>
+            <th>数量</th>
+            <th>小計</th>
+          </tr>
+          <% @cart_items.each do |cart_item| %>
+            <tr>
+              <td><%= cart_item.item.name %></td>
+              <td><%= cart_item.item.with_tax_price %></td>
+              <td><%= cart_item.amount %></td>
+              <td><%= cart_item.subtotal %><% @total += cart_item.item.with_tax_price * cart_item.amount %></td>
+            </tr>
+          <% end %>
+        </table>
+        <table border="1" class="table2">
+          <tr>
+            <td>送料</td>
+            <td><%= @order.shipping_cost %></td>
+          </tr>
+          <tr>
+            <td>商品合計</td>
+            <td><%= @total %></td>
+          </tr>
+          <tr>
+            <td>請求金額<%= @total %></td>
+            <td><% @sum = @total + @order.shipping_cost %><%= @sum %></td>
+          </tr>
+        </table>
+      </div>
+      </br>
+
+      <strong>支払方法</strong>　<%= @order.payment_method_i18n %></br>
+      <strong>お届け先</strong>　〒<%= @order.postal_code %> <%= @order.address %> <%= @order.name %>
+      <%= form_with model: @order, url:orders_path, local:true do |f| %>
+      <%= f.hidden_field :postal_code, value: @order.postal_code %>
+      <%= f.hidden_field :address, value: @order.address %>
+      <%= f.hidden_field :name, value: @order.name %>
+      <%= f.hidden_field :payment_method, value: @order.payment_method %>
+      <%= f.hidden_field :total_payment, value: @sum %>
+      <%= f.hidden_field :shipping_cost, value: @order.shipping_cost %>
+      <%= f.hidden_field :status, value: @order.status %>
+      <%= f.hidden_field :customer_id, value: @order.customer_id %>
+
+      </br>
+      <button class="btn btn-success" type="submit">注文を確定する</button>
+      <% end %>
+    </div>
+  </div>
+</div>
